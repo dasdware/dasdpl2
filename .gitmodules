@@ -1,0 +1,3 @@
+[submodule "vendor/nobuild"]
+	path = vendor/nobuild
+	url = https://github.com/tsoding/nobuild
