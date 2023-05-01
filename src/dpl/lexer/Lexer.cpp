@@ -21,6 +21,11 @@ namespace dpl::lexer
             return isdigit(character);
         }
 
+        bool isDot(char character)
+        {
+            return character == '.';
+        }
+
         bool isBinaryDigit(char character)
         {
             return (character == '0') || (character == '1');
@@ -153,10 +158,18 @@ namespace dpl::lexer
             {
                 chop();
             }
+            if (characters::isDot(peek()))
+            {
+                chop();
+                while (characters::isDecimalDigit(peek()))
+                {
+                    chop();
+                }
+            }
         }
 
         TokenType type = TokenType::NumberLiteral;
-        while (characters::isLetter(peek()) || characters::isDecimalDigit(peek()))
+        while (characters::isLetter(peek()) || characters::isDecimalDigit(peek()) || characters::isDot(peek()))
         {
             type = TokenType::InvalidNumberLiteral;
             chop();

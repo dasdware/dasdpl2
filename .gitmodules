@@ -1,3 +1,6 @@
 [submodule "vendor/nobuild"]
 	path = vendor/nobuild
 	url = https://github.com/tsoding/nobuild
+[submodule "vendor/libcester"]
+	path = vendor/libcester
+	url = https://github.com/exoticlibraries/libcester

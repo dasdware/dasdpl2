@@ -27,6 +27,11 @@ namespace dpl::lexer
         os << std::endl;
     }
 
+    std::string Token::toString()
+    {
+        return std::string(textBegin, textEnd);
+    }
+
     std::ostream &operator<<(std::ostream &os, const Token &token)
     {
         os << token.location << ": " << token.type;

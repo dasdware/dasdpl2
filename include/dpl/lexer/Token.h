@@ -21,6 +21,7 @@ namespace dpl::lexer
               TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
 
         void report(std::ostream &os);
+        std::string toString();
     };
 
     std::ostream &operator<<(std::ostream &os, const Token &token);

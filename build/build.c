@@ -2,7 +2,8 @@
 #include "../vendor/nobuild/nobuild.h"
 
 #define CPPFLAGS "-Wall", "-Wextra", "-std=c++17", "-pedantic"
-#define INCLUDES "-Iinclude"
+#define INC_DPL "-Iinclude"
+#define INC_CESTER "-Ivendor/libcester/include"
 
 #define SRC_LEXER_LEXER PATH("src", "dpl", "lexer", "Lexer.cpp")
 #define SRC_LEXER_LINE PATH("src", "dpl", "lexer", "Line.cpp")
@@ -13,15 +14,28 @@
 #define SRC_LEXER SRC_LEXER_LEXER, SRC_LEXER_LINE, SRC_LEXER_LOCATION, SRC_LEXER_SOURCETEXT, SRC_LEXER_TOKEN, SRC_LEXER_TOKENTYPE
 
 #define SRC_MAIN PATH("src", "main.cpp")
+#define SRC_TEST PATH("src", "test.cpp")
 
 void build_compiler()
 {
-    CMD("g++.exe", INCLUDES, CPPFLAGS, "-o", "dplc.exe", SRC_LEXER, SRC_MAIN);
+    CMD("g++.exe", INC_DPL, CPPFLAGS, "-o", "dplc.exe", SRC_LEXER, SRC_MAIN);
 }
 
 void run_compiler()
 {
     CMD("dplc.exe");
+}
+
+void build_tests()
+{
+    CMD("g++.exe", INC_CESTER, INC_DPL, "-I.", "-Wno-write-strings", "-std=c++17",
+        //        "-D__BASE_FILE__=src/test.cpp",
+        "-o", "tests.exe", SRC_LEXER, SRC_TEST);
+}
+
+void run_tests()
+{
+    CMD("tests.exe");
 }
 
 void usage(const char *program)
@@ -30,6 +44,7 @@ void usage(const char *program)
     INFO("  Commands:");
     INFO("  - compile: Compiles the DasdPL compiler and creates the corresponding executable.");
     INFO("  - run    : Runs the compiler after it has been compiled.");
+    INFO("  - test   : Build and run the tests.");
 }
 
 int main(int argc, char **argv)
@@ -53,6 +68,11 @@ int main(int argc, char **argv)
     {
         build_compiler();
         run_compiler();
+    }
+    else if (strcmp(command, "test") == 0)
+    {
+        build_tests();
+        run_tests();
     }
     else
     {
