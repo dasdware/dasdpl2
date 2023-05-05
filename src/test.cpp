@@ -51,3 +51,7 @@ LEXER_LITERAL_TEST(Lexer_WhiteSpace_Tab, dpl::lexer::TokenType::WhiteSpace, "\t"
 LEXER_LITERAL_TEST(Lexer_WhiteSpace_CarriageReturn, dpl::lexer::TokenType::WhiteSpace, "\r")
 LEXER_LITERAL_TEST(Lexer_WhiteSpace_NewLine, dpl::lexer::TokenType::WhiteSpace, "\n")
 LEXER_LITERAL_TEST(Lexer_WhiteSpace_All, dpl::lexer::TokenType::WhiteSpace, " \t\r\n")
+
+LEXER_LITERAL_TEST(Lexer_EndOfFile, dpl::lexer::TokenType::EndOfFile, "")
+
+LEXER_LITERAL_TEST(Lexer_InvalidCharacter, dpl::lexer::TokenType::InvalidCharacter, "@")
