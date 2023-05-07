@@ -13,12 +13,21 @@
 #define SRC_LEXER_TOKENTYPE PATH("src", "dpl", "lexer", "TokenType.cpp")
 #define SRC_LEXER SRC_LEXER_LEXER, SRC_LEXER_LINE, SRC_LEXER_LOCATION, SRC_LEXER_SOURCETEXT, SRC_LEXER_TOKEN, SRC_LEXER_TOKENTYPE
 
+#define SRC_TYPES_NUMBERTYPE PATH("src", "dpl", "types", "NumberType.cpp")
+#define SRC_TYPES_TYPE PATH("src", "dpl", "types", "Type.cpp")
+#define SRC_TYPES SRC_TYPES_NUMBERTYPE, SRC_TYPES_TYPE
+
+#define SRC_VALUES_VALUE PATH("src", "dpl", "values", "Value.cpp")
+#define SRC_VALUES SRC_VALUES_VALUE
+
+#define SRC SRC_LEXER, SRC_TYPES, SRC_VALUES
+
 #define SRC_MAIN PATH("src", "main.cpp")
 #define SRC_TEST PATH("src", "test.cpp")
 
 void build_compiler()
 {
-    CMD("g++.exe", INC_DPL, CPPFLAGS, "-o", "dplc.exe", SRC_LEXER, SRC_MAIN);
+    CMD("g++.exe", INC_DPL, CPPFLAGS, "-o", "dplc.exe", SRC, SRC_MAIN);
 }
 
 void run_compiler()
@@ -29,8 +38,7 @@ void run_compiler()
 void build_tests()
 {
     CMD("g++.exe", INC_CESTER, INC_DPL, "-I.", "-Wno-write-strings", "-std=c++17",
-        //        "-D__BASE_FILE__=src/test.cpp",
-        "-o", "tests.exe", SRC_LEXER, SRC_TEST);
+        "-o", "tests.exe", SRC, SRC_TEST);
 }
 
 void run_tests()

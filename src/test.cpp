@@ -6,6 +6,7 @@
 #include <exotic/cester.h>
 
 #include <dpl/lexer/Lexer.h>
+#include <dpl/values/Value.h>
 
 CESTER_BEFORE_ALL(instance,
                   CESTER_VERBOSE_LEVEL(2);)
@@ -55,3 +56,8 @@ LEXER_LITERAL_TEST(Lexer_WhiteSpace_All, dpl::lexer::TokenType::WhiteSpace, " \t
 LEXER_LITERAL_TEST(Lexer_EndOfFile, dpl::lexer::TokenType::EndOfFile, "")
 
 LEXER_LITERAL_TEST(Lexer_InvalidCharacter, dpl::lexer::TokenType::InvalidCharacter, "@")
+
+CESTER_TEST(Value_Number_Simple, instance,
+            const auto value = dpl::values::Value::number("123");
+            cester_assert_str_eq("Number", value.type().name().c_str());
+            cester_assert_str_eq("123", value.toSource().c_str());)
