@@ -11,11 +11,11 @@ namespace dpl::lexer
 
     struct Location
     {
-        const std::string &fileName;
+        SourceText *sourceText;
         SourceTextLine line;
         size_t column;
 
-        Location(const std::string &fileName, SourceTextLine line, size_t column);
+        Location(SourceText *sourceText, SourceTextLine line, size_t column);
     };
 
     std::ostream &operator<<(std::ostream &os, const Location &location);

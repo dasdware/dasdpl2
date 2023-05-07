@@ -21,6 +21,9 @@ namespace dpl::lexer
         case TokenType::EndOfFile:
             os << "EndOfFile";
             break;
+        case TokenType::InvalidToken:
+            os << "InvalidToken";
+            break;
         }
 
         return os;

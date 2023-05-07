@@ -49,7 +49,7 @@ namespace dpl::lexer
 
     Location Lexer::startLocation()
     {
-        return Location(sourceText.fileName(), startLine, startColumn);
+        return Location(&sourceText, startLine, startColumn);
     }
 
     void Lexer::startToken()

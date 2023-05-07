@@ -41,4 +41,12 @@ namespace dpl::lexer
         }
         return os;
     }
+
+    Token Token::invalid()
+    {
+        static SourceText text("", "");
+        static Location location(&text, text.newLine(text.sourceText().begin()), 0);
+        static Token token(location, TokenType::InvalidToken, text.sourceText().begin(), text.sourceText().end());
+        return token;
+    }
 }

@@ -2,7 +2,7 @@
 
 namespace dpl::lexer
 {
-    SourceText::SourceText(std::string fileName, const std::string sourceText)
+    SourceText::SourceText(const std::string fileName, const std::string sourceText)
         : _fileName(fileName), _sourceText(sourceText), _lineNumber(0)
     {
     }

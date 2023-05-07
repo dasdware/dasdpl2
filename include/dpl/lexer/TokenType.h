@@ -14,7 +14,9 @@ namespace dpl::lexer
 
         InvalidCharacter,
         InvalidNumberLiteral,
-        EndOfFile
+        EndOfFile,
+
+        InvalidToken
     };
 
     std::ostream &operator<<(std::ostream &os, const TokenType &type);

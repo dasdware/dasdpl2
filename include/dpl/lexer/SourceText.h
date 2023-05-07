@@ -19,7 +19,7 @@ namespace dpl::lexer
         size_t _lineNumber;
 
     public:
-        SourceText(std::string fileName, const std::string sourceText);
+        SourceText(const std::string fileName, const std::string sourceText);
 
         SourceTextLine newLine(std::string::const_iterator begin);
 
