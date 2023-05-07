@@ -1,28 +1,19 @@
-#include <dpl/lexer/Lexer.h>
+#include <dpl/parser/Parser.h>
 
 int main()
 {
     dpl::lexer::SourceText source("test.dpl", "789\n123  456 0a\n0b011 2\n0+a");
     dpl::lexer::Lexer lexer(source);
+    dpl::parser::Parser parser(lexer);
 
-    while (true)
+    auto token = dpl::lexer::Token::invalid();
+    do
     {
-        auto token = lexer.nextToken();
-
-        if (token.type == dpl::lexer::TokenType::WhiteSpace)
-        {
-            continue;
-        }
-
-        std::cout << token << std::endl;
+        token = parser._nextToken();
+        std::cout << token.location << ": " << token.type << std::endl;
         token.report(std::cout);
         std::cout << std::endl;
-
-        if (token.type == dpl::lexer::TokenType::EndOfFile)
-        {
-            break;
-        }
-    }
+    } while (token.type != dpl::lexer::TokenType::EndOfFile);
 
     return 0;
 }

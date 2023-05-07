@@ -13,6 +13,10 @@
 #define SRC_LEXER_TOKENTYPE PATH("src", "dpl", "lexer", "TokenType.cpp")
 #define SRC_LEXER SRC_LEXER_LEXER, SRC_LEXER_LINE, SRC_LEXER_LOCATION, SRC_LEXER_SOURCETEXT, SRC_LEXER_TOKEN, SRC_LEXER_TOKENTYPE
 
+#define SRC_PARSER_PARSER PATH("src", "dpl", "parser", "Parser.cpp")
+#define SRC_PARSER_AST_NUMBERLITERALNODE PATH("src", "dpl", "parser", "ast", "NumberLiteralNode.cpp")
+#define SRC_PARSER SRC_PARSER_PARSER, SRC_PARSER_AST_NUMBERLITERALNODE
+
 #define SRC_TYPES_NUMBERTYPE PATH("src", "dpl", "types", "NumberType.cpp")
 #define SRC_TYPES_TYPE PATH("src", "dpl", "types", "Type.cpp")
 #define SRC_TYPES SRC_TYPES_NUMBERTYPE, SRC_TYPES_TYPE
@@ -20,7 +24,7 @@
 #define SRC_VALUES_VALUE PATH("src", "dpl", "values", "Value.cpp")
 #define SRC_VALUES SRC_VALUES_VALUE
 
-#define SRC SRC_LEXER, SRC_TYPES, SRC_VALUES
+#define SRC SRC_LEXER, SRC_PARSER, SRC_TYPES, SRC_VALUES
 
 #define SRC_MAIN PATH("src", "main.cpp")
 #define SRC_TEST PATH("src", "test.cpp")
