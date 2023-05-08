@@ -10,8 +10,10 @@ int main()
     do
     {
         token = parser._nextToken();
-        std::cout << token.location << ": " << token.type << std::endl;
+
+        std::cout << token << std::endl;
         token.report(std::cout);
+
         std::cout << std::endl;
     } while (token.type != dpl::lexer::TokenType::EndOfFile);
 
