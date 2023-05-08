@@ -6,24 +6,12 @@ namespace dpl::lexer
     {
         switch (type)
         {
-        case TokenType::NumberLiteral:
-            os << "NumberLiteral";
-            break;
-        case TokenType::WhiteSpace:
-            os << "WhiteSpace";
-            break;
-        case TokenType::InvalidCharacter:
-            os << "InvalidCharacter";
-            break;
-        case TokenType::InvalidNumberLiteral:
-            os << "InvalidNumberLiteral";
-            break;
-        case TokenType::EndOfFile:
-            os << "EndOfFile";
-            break;
-        case TokenType::InvalidToken:
-            os << "InvalidToken";
-            break;
+#define TOKEN_TYPE(type)  \
+    case TokenType::type: \
+        os << #type;      \
+        break;
+            TOKEN_TYPES
+#undef TOKEN_TYPE
         }
 
         return os;
