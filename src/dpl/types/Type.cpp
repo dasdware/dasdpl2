@@ -2,17 +2,17 @@
 
 namespace dpl::types
 {
-    Type::Type(const std::string &name)
+    Type::Type(const std::string& name)
         : _name(name)
     {
     }
 
-    const std::string &Type::name() const
+    const std::string& Type::name() const
     {
         return _name;
     }
 
-    std::ostream &operator<<(std::ostream &os, const Type &type)
+    std::ostream& operator<<(std::ostream& os, const Type& type)
     {
         os << type.name();
         return os;

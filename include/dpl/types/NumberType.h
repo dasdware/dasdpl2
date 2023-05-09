@@ -9,17 +9,17 @@ namespace dpl::types
     class NumberType : public Type
     {
     public:
-        static const NumberType &instance();
+        static const NumberType& instance();
 
     private:
         NumberType();
 
     public:
-        NumberType(NumberType const &) = delete;
-        void operator=(NumberType const &) = delete;
+        NumberType(NumberType const&) = delete;
+        void operator=(NumberType const&) = delete;
 
-        const std::string valueToSource(const std::any &value) const;
-        const std::any sourceToValue(const std::string &source) const;
+        const std::string valueToSource(const std::any& value) const;
+        const std::any sourceToValue(const std::string& source) const;
     };
 }
 

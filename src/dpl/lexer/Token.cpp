@@ -3,13 +3,13 @@
 namespace dpl::lexer
 {
     Token::Token(const Location location,
-                 TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd)
+        TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd)
         : location(location),
-          type(type), textBegin(textBegin), textEnd(textEnd)
+        type(type), textBegin(textBegin), textEnd(textEnd)
     {
     }
 
-    void Token::report(std::ostream &os)
+    void Token::report(std::ostream& os)
     {
         os << *(location.line) << std::endl;
         os << "     | ";
@@ -32,7 +32,7 @@ namespace dpl::lexer
         return std::string(textBegin, textEnd);
     }
 
-    std::ostream &operator<<(std::ostream &os, const Token &token)
+    std::ostream& operator<<(std::ostream& os, const Token& token)
     {
         os << token.location << ": " << token.type;
         if (token.textEnd > token.textBegin)

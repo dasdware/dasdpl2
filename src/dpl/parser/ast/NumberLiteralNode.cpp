@@ -3,7 +3,7 @@
 namespace dpl::parser::ast
 {
 
-    NumberLiteralNode::NumberLiteralNode(const dpl::lexer::Token &literal)
+    NumberLiteralNode::NumberLiteralNode(const dpl::lexer::Token& literal)
         : _literal(literal)
     {
     }

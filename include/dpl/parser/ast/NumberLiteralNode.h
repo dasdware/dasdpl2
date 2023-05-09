@@ -11,7 +11,7 @@ namespace dpl::parser::ast
         dpl::lexer::Token _literal;
 
     public:
-        NumberLiteralNode(const dpl::lexer::Token &literal);
+        NumberLiteralNode(const dpl::lexer::Token& literal);
     };
 }
 

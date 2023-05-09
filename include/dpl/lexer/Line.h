@@ -10,11 +10,11 @@ namespace dpl::lexer
     struct Line
     {
         size_t line;
-        const std::string &source;
+        const std::string& source;
 
         SourceTextPosition begin;
 
-        Line(size_t line, const std::string &source, SourceTextPosition begin)
+        Line(size_t line, const std::string& source, SourceTextPosition begin)
             : line(line), source(source), begin(begin) {}
 
         SourceTextPosition end() const
@@ -31,7 +31,7 @@ namespace dpl::lexer
         }
     };
 
-    std::ostream &operator<<(std::ostream &os, const Line &line);
+    std::ostream& operator<<(std::ostream& os, const Line& line);
 }
 
 #endif

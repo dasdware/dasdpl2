@@ -23,8 +23,8 @@ namespace dpl::lexer
 
         SourceTextLine newLine(std::string::const_iterator begin);
 
-        const std::string &fileName();
-        const std::string &sourceText();
+        const std::string& fileName();
+        const std::string& sourceText();
     };
 }
 

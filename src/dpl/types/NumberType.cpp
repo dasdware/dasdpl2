@@ -8,19 +8,19 @@ namespace dpl::types
     {
     }
 
-    const std::string NumberType::valueToSource(const std::any &value) const
+    const std::string NumberType::valueToSource(const std::any& value) const
     {
         std::ostringstream stream;
         stream << std::any_cast<double>(value);
         return stream.str();
     }
 
-    const std::any NumberType::sourceToValue(const std::string &source) const
+    const std::any NumberType::sourceToValue(const std::string& source) const
     {
         return std::make_any<double>(std::stod(source));
     }
 
-    const NumberType &NumberType::instance()
+    const NumberType& NumberType::instance()
     {
         static NumberType theInstance;
         return theInstance;

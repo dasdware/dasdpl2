@@ -11,14 +11,14 @@ namespace dpl::lexer
 
     struct Location
     {
-        SourceText *sourceText;
+        SourceText* sourceText;
         SourceTextLine line;
         size_t column;
 
-        Location(SourceText *sourceText, SourceTextLine line, size_t column);
+        Location(SourceText* sourceText, SourceTextLine line, size_t column);
     };
 
-    std::ostream &operator<<(std::ostream &os, const Location &location);
+    std::ostream& operator<<(std::ostream& os, const Location& location);
 }
 
 #endif

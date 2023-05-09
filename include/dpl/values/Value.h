@@ -9,21 +9,21 @@ namespace dpl::values
     class Value
     {
         std::any _value;
-        const dpl::types::Type &_type;
+        const dpl::types::Type& _type;
 
     public:
-        Value(std::any value, const dpl::types::Type &type);
-        Value(const std::string &source, const dpl::types::Type &type);
+        Value(std::any value, const dpl::types::Type& type);
+        Value(const std::string& source, const dpl::types::Type& type);
 
-        const std::any &value() const;
-        const dpl::types::Type &type() const;
+        const std::any& value() const;
+        const dpl::types::Type& type() const;
 
         const std::string toSource() const;
 
-        static Value number(const std::string &source);
+        static Value number(const std::string& source);
     };
 
-    std::ostream &operator<<(std::ostream &os, const Value &value);
+    std::ostream& operator<<(std::ostream& os, const Value& value);
 }
 
 #endif

@@ -18,16 +18,16 @@ namespace dpl::lexer
         std::string::const_iterator textEnd;
 
         Token(const Location location,
-              TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
-        Token(const Token &token) = default;
+            TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
+        Token(const Token& token) = default;
 
-        void report(std::ostream &os);
+        void report(std::ostream& os);
         std::string toString();
 
         static Token invalid();
     };
 
-    std::ostream &operator<<(std::ostream &os, const Token &token);
+    std::ostream& operator<<(std::ostream& os, const Token& token);
 }
 
 #endif

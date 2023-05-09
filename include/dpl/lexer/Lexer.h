@@ -10,7 +10,7 @@ namespace dpl::lexer
 {
     class Lexer
     {
-        SourceText &sourceText;
+        SourceText& sourceText;
 
         std::string::const_iterator position;
         SourceTextLine line;
@@ -34,7 +34,7 @@ namespace dpl::lexer
         Token number(char first);
 
     public:
-        Lexer(SourceText &sourceText);
+        Lexer(SourceText& sourceText);
 
         Token nextToken();
     };

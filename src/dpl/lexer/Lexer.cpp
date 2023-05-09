@@ -178,7 +178,7 @@ namespace dpl::lexer
         return endToken(type);
     }
 
-    Lexer::Lexer(SourceText &sourceText)
+    Lexer::Lexer(SourceText& sourceText)
         : sourceText(sourceText), column(0)
     {
         position = sourceText.sourceText().begin();

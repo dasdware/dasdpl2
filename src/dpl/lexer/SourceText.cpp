@@ -15,12 +15,12 @@ namespace dpl::lexer
         return (_lines.end() - 1);
     }
 
-    const std::string &SourceText::fileName()
+    const std::string& SourceText::fileName()
     {
         return _fileName;
     }
 
-    const std::string &SourceText::sourceText()
+    const std::string& SourceText::sourceText()
     {
         return _sourceText;
     }

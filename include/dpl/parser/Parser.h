@@ -7,12 +7,12 @@ namespace dpl::parser
 {
     class Parser
     {
-        dpl::lexer::Lexer &_lexer;
+        dpl::lexer::Lexer& _lexer;
 
     public:
         dpl::lexer::Token _nextToken();
 
-        Parser(dpl::lexer::Lexer &lexer);
+        Parser(dpl::lexer::Lexer& lexer);
     };
 }
 

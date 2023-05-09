@@ -1,17 +1,17 @@
 #include <dpl/lexer/TokenType.h>
 
+#define TOKEN_TYPE_STREAM_CASE(type) \
+    case TokenType::type:            \
+        os << #type;                 \
+        break;
+
 namespace dpl::lexer
 {
-    std::ostream &operator<<(std::ostream &os, const TokenType &type)
+    std::ostream& operator<<(std::ostream& os, const TokenType& type)
     {
         switch (type)
         {
-#define TOKEN_TYPE(type)  \
-    case TokenType::type: \
-        os << #type;      \
-        break;
-            TOKEN_TYPES
-#undef TOKEN_TYPE
+            TOKEN_TYPES(TOKEN_TYPE_STREAM_CASE)
         }
 
         return os;

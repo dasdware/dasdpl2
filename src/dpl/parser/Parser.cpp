@@ -2,7 +2,7 @@
 
 namespace dpl::parser
 {
-    Parser::Parser(dpl::lexer::Lexer &lexer)
+    Parser::Parser(dpl::lexer::Lexer& lexer)
         : _lexer(lexer) {}
 
     dpl::lexer::Token Parser::_nextToken()
