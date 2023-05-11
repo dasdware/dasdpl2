@@ -26,6 +26,26 @@ namespace dpl::lexer
     };
 
     std::ostream& operator<<(std::ostream& os, const TokenType& type);
+
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_LEXER_TOKENTYPE_IMPL)
+#define __DPL_LEXER_TOKENTYPE_IMPL
+
+#define TOKEN_TYPE_STREAM_CASE(type) \
+    case TokenType::type:            \
+        os << #type;                 \
+        break;
+
+    std::ostream& operator<<(std::ostream& os, const TokenType& type)
+    {
+        switch (type)
+        {
+            TOKEN_TYPES(TOKEN_TYPE_STREAM_CASE)
+        }
+
+        return os;
+    }
+#endif
+
 }
 
 #endif

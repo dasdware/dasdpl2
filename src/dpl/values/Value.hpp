@@ -1,8 +1,35 @@
-#include <dpl/values/Value.h>
-#include <dpl/types/NumberType.h>
+#ifndef __DPL_VALUES_VALUE_H
+#define __DPL_VALUES_VALUE_H
+
+#include <any>
+#include <dpl/types/Type.hpp>
 
 namespace dpl::values
 {
+    class Value
+    {
+        std::any _value;
+        const dpl::types::Type& _type;
+
+    public:
+        Value(std::any value, const dpl::types::Type& type);
+        Value(const std::string& source, const dpl::types::Type& type);
+
+        const std::any& value() const;
+        const dpl::types::Type& type() const;
+
+        const std::string toSource() const;
+
+        static Value number(const std::string& source);
+    };
+
+    std::ostream& operator<<(std::ostream& os, const Value& value);
+
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_VALUES_VALUE_IMPL)
+#define __DPL_VALUES_VALUE_IMPL
+
+#include <dpl/types/NumberType.hpp>
+
     Value::Value(std::any value, const dpl::types::Type& type)
         : _value(value), _type(type)
     {
@@ -40,4 +67,7 @@ namespace dpl::values
         return os;
     }
 
+#endif
 }
+
+#endif

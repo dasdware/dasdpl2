@@ -5,8 +5,8 @@
 
 #include <exotic/cester.h>
 
-#include <dpl/lexer/Lexer.h>
-#include <dpl/values/Value.h>
+#include <dpl/lexer/Lexer.hpp>
+#include <dpl/values/Value.hpp>
 
 CESTER_BEFORE_ALL(instance,
     CESTER_VERBOSE_LEVEL(2);)

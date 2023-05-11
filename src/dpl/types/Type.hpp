@@ -22,6 +22,27 @@ namespace dpl::types
     };
 
     std::ostream& operator<<(std::ostream& os, const Type& type);
+
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_TYPES_TYPE_IMPL)
+#define __DPL_TYPES_TYPE_IMPL
+
+    Type::Type(const std::string& name)
+        : _name(name)
+    {
+    }
+
+    const std::string& Type::name() const
+    {
+        return _name;
+    }
+
+    std::ostream& operator<<(std::ostream& os, const Type& type)
+    {
+        os << type.name();
+        return os;
+    }
+
+#endif
 }
 
 #endif

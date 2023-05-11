@@ -1,7 +1,47 @@
-#include <dpl/lexer/Lexer.h>
+#ifndef __DPL_LEXER_LEXER_H
+#define __DPL_LEXER_LEXER_H
+
+#include <dpl/lexer/Location.hpp>
+#include <dpl/lexer/SourceText.hpp>
+#include <dpl/lexer/Token.hpp>
+#include <dpl/lexer/TokenType.hpp>
 
 namespace dpl::lexer
 {
+    class Lexer
+    {
+        SourceText& sourceText;
+
+        std::string::const_iterator position;
+        SourceTextLine line;
+        size_t column;
+
+        std::string::const_iterator startPosition;
+        SourceTextLine startLine;
+        size_t startColumn;
+
+        Location startLocation();
+
+        void startToken();
+        Token endToken(TokenType type);
+
+        char peek();
+        char chop();
+
+        Token eof();
+        Token invalidCharacter();
+        Token whitespace();
+        Token number(char first);
+
+    public:
+        Lexer(SourceText& sourceText);
+
+        Token nextToken();
+    };
+
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_LEXER_LEXER_IMPL)
+#define __DPL_LEXER_LEXER_IMPL
+
     namespace characters
     {
         const char CHAR_EOF = '\0';
@@ -215,4 +255,8 @@ namespace dpl::lexer
             return invalidCharacter();
         }
     }
+
+#endif
 }
+
+#endif

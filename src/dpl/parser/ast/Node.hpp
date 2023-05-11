@@ -3,8 +3,11 @@
 
 namespace dpl::parser::ast
 {
-    class Node
+    class NodeVisitor;
+
+    struct Node
     {
+        virtual void accept(NodeVisitor* visitor) = 0;
     };
 }
 #endif

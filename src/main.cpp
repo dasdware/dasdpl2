@@ -1,4 +1,4 @@
-#include <dpl/parser/Parser.h>
+#include <dpl/parser/Parser.hpp>
 
 int main()
 {

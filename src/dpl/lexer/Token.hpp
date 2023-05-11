@@ -1,7 +1,37 @@
-#include <dpl/lexer/Token.h>
+#ifndef __DPL_LEXER_TOKEN_H
+#define __DPL_LEXER_TOKEN_H
+
+#include <iostream>
+#include <vector>
+
+#include <dpl/lexer/Location.hpp>
+#include <dpl/lexer/TokenType.hpp>
 
 namespace dpl::lexer
 {
+    struct Token
+    {
+        Location location;
+        TokenType type;
+
+        std::string::const_iterator textBegin;
+        std::string::const_iterator textEnd;
+
+        Token(const Location location,
+            TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
+        Token(const Token& token) = default;
+
+        void report(std::ostream& os);
+        std::string toString();
+
+        static Token invalid();
+    };
+
+    std::ostream& operator<<(std::ostream& os, const Token& token);
+
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_LEXER_TOKEN_IMPL)
+#define __DPL_LEXER_TOKEN_IMPL
+
     Token::Token(const Location location,
         TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd)
         : location(location),
@@ -49,4 +79,8 @@ namespace dpl::lexer
         static Token token(location, TokenType::InvalidToken, text.sourceText().begin(), text.sourceText().end());
         return token;
     }
+
+#endif
 }
+
+#endif
