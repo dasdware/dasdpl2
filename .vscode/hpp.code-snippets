@@ -1,0 +1,23 @@
+{
+	"HPP Skeleton": {
+		"scope": "cpp",
+		"prefix": "hpp",
+		"body": [
+			"#ifndef __${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}",
+			"#define __${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}",
+			"",
+			"namespace ${TM_DIRECTORY/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1}${2:+::}${3}/g}",
+			"{",
+            "",
+			"#if defined(DPL_IMPLEMENTATION) && !defined(__${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}_IMPL)",
+			"#define __${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}_IMPL",
+			"",
+			"",
+			"#endif // ${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}_IMPL",
+			"}",
+			"",
+			"#endif // ${TM_FILEPATH/(?:^.*\\\\src\\\\)?(\\w+)(?!\\w*$)|(\\W)|(\\w+)$/${1:/upcase}${2:+_}${3:/upcase}/g}"
+		],
+		"description": "Log output to console"
+	}
+}
