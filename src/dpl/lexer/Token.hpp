@@ -17,6 +17,7 @@ namespace dpl::lexer
         std::string::const_iterator textBegin;
         std::string::const_iterator textEnd;
 
+        Token();
         Token(const Location location,
             TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
         Token(const Token& token) = default;
@@ -31,6 +32,13 @@ namespace dpl::lexer
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_LEXER_TOKEN_IMPL)
 #define __DPL_LEXER_TOKEN_IMPL
+
+    Token::Token()
+        : location(Token::invalid().location),
+        textBegin(Token::invalid().textBegin),
+        textEnd(Token::invalid().textEnd)
+    {
+    }
 
     Token::Token(const Location location,
         TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd)
