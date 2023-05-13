@@ -42,8 +42,10 @@
     "xstddef": "cpp",
     "xtr1common": "cpp",
     "xutility": "cpp",
-    "any": "cpp"
+    "any": "cpp",
+    "sstream": "cpp"
   },
   "C_Cpp.vcFormat.indent.preprocessor": "leftmostColumn",
-  "C_Cpp.formatting": "vcFormat"
+  "C_Cpp.formatting": "vcFormat",
+  "C_Cpp.dimInactiveRegions": false
 }
