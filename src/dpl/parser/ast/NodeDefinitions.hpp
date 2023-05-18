@@ -2,6 +2,7 @@
 #include <dpl/parser/ast/Node.hpp>
 
 #define NODES(_node, _baseNode, _aliasNode, _field, _child)  \
+    _node(Invalid, )                                         \
     _baseNode(Literal,                                       \
         _field(Token, literal))                              \
     _aliasNode(NumberLiteral, Literal)                       \
