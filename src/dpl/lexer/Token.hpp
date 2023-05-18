@@ -25,6 +25,8 @@ namespace dpl::lexer
         void report(std::ostream& os);
         std::string toString();
 
+        bool isInvalid();
+
         static Token invalid();
     };
 
@@ -78,6 +80,10 @@ namespace dpl::lexer
             os << ": '" << std::string(token.textBegin, token.textEnd) << "'";
         }
         return os;
+    }
+
+    bool Token::isInvalid() {
+        return type == TokenType::InvalidToken;
     }
 
     Token Token::invalid()
