@@ -13,13 +13,26 @@ namespace dpl::parser
     using dpl::lexer::Token;
     using dpl::lexer::TokenType;
 
+    enum class Precedence
+    {
+        None = 0,
+        Assignment,
+        Conditional,
+        Sum,
+        Product,
+        Exponent,
+        Prefix,
+        Postfix,
+        Call,
+    };
+
     class Parser;
 
     namespace parselets {
         struct PrefixParselet {
-            const int precedence;
+            const Precedence precedence;
 
-            PrefixParselet(int precedence);
+            PrefixParselet(Precedence precedence);
 
             virtual ast::node_ptr parse(Parser& parser, Token token) = 0;
         };
@@ -37,7 +50,7 @@ namespace dpl::parser
         Token _consume(TokenType type);
         bool _match(TokenType type);
 
-        ast::node_ptr _parse(int precedence);
+        ast::node_ptr _parse(Precedence precedence);
 
     public:
         Parser(dpl::lexer::Lexer& lexer);
@@ -49,13 +62,13 @@ namespace dpl::parser
 #define __DPL_PARSER_PARSER_IMPL
 
     namespace parselets {
-        PrefixParselet::PrefixParselet(int precedence)
+        PrefixParselet::PrefixParselet(Precedence precedence)
             : precedence(precedence)
         {
         }
 
         struct NumberParselet : PrefixParselet {
-            NumberParselet() : PrefixParselet(0) { }
+            NumberParselet() : PrefixParselet(Precedence::None) { }
 
             ast::node_ptr parse(Parser&, Token token) {
                 auto node = std::make_unique<ast::NumberLiteralNode>();
@@ -126,7 +139,7 @@ namespace dpl::parser
         return true;
     }
 
-    ast::node_ptr Parser::_parse(int precedence)
+    ast::node_ptr Parser::_parse(Precedence precedence)
     {
         Token token = _consume();
 
@@ -143,7 +156,7 @@ namespace dpl::parser
 
     ast::node_ptr Parser::parse()
     {
-        auto expression = _parse(0);
+        auto expression = _parse(Precedence::None);
 
         return expression;
     }
