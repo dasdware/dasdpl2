@@ -45,7 +45,14 @@
     "any": "cpp",
     "sstream": "cpp",
     "functional": "cpp",
-    "list": "cpp"
+    "list": "cpp",
+    "algorithm": "cpp",
+    "array": "cpp",
+    "iterator": "cpp",
+    "map": "cpp",
+    "unordered_map": "cpp",
+    "xhash": "cpp",
+    "xtree": "cpp"
   },
   "C_Cpp.vcFormat.indent.preprocessor": "leftmostColumn",
   "C_Cpp.formatting": "vcFormat",
