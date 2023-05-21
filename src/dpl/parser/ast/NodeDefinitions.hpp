@@ -11,4 +11,5 @@
         _child(Node, left)                                   \
         _child(Node, right)                                  \
     )                                                        \
-    _aliasNode(AddOperator, BinaryOperator)
+    _aliasNode(AddOperator, BinaryOperator)                  \
+    _aliasNode(SubtractOperator, BinaryOperator)

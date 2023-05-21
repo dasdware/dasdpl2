@@ -120,6 +120,8 @@ namespace dpl::parser
 
         _infixParselets[TokenType::AddOperator] = std::make_unique<
             parselets::BinaryOperatorParselet<ast::AddOperatorNode>>(Precedence::Sum, false);
+        _infixParselets[TokenType::SubtractOperator] = std::make_unique<
+            parselets::BinaryOperatorParselet<ast::SubtractOperatorNode>>(Precedence::Sum, false);
     }
 
     Token Parser::_next()

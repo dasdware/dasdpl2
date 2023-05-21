@@ -3,7 +3,7 @@
 
 int main()
 {
-    dpl::lexer::SourceText source("test.dpl", "123 + 456");
+    dpl::lexer::SourceText source("test.dpl", "123 + 456 - 789");
     dpl::lexer::Lexer lexer(source);
     dpl::parser::Parser parser(lexer);
 

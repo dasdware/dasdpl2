@@ -35,6 +35,7 @@ namespace dpl::lexer
         Token number(char first);
 
         Token addOperator();
+        Token subtractOperator();
     public:
         Lexer(SourceText& sourceText);
 
@@ -225,6 +226,11 @@ namespace dpl::lexer
         return endToken(TokenType::AddOperator);
     }
 
+    Token Lexer::subtractOperator()
+    {
+        return endToken(TokenType::SubtractOperator);
+    }
+
     Lexer::Lexer(SourceText& sourceText)
         : sourceText(sourceText), column(0)
     {
@@ -248,6 +254,8 @@ namespace dpl::lexer
             return whitespace();
         case '+':
             return addOperator();
+        case '-':
+            return subtractOperator();
         case '0':
         case '1':
         case '2':

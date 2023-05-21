@@ -9,6 +9,7 @@
                                   \
     /* Operators */               \
     _define(AddOperator)          \
+    _define(SubtractOperator)     \
                                   \
     /* Normally ignored */        \
     _define(WhiteSpace)           \
