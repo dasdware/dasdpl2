@@ -36,12 +36,21 @@ namespace dpl::parser
 
             virtual ast::node_ptr parse(Parser& parser, Token token) = 0;
         };
+
+        struct InfixParselet {
+            const Precedence precedence;
+
+            InfixParselet(Precedence precedence);
+
+            virtual ast::node_ptr parse(Parser& parser, ast::node_ptr left, Token token) = 0;
+        };
     }
 
     class Parser
     {
         dpl::lexer::Lexer& _lexer;
         std::map<TokenType, std::unique_ptr<parselets::PrefixParselet>> _prefixParselets;
+        std::map<TokenType, std::unique_ptr<parselets::InfixParselet>> _infixParselets;
         std::vector<Token> _readTokens;
 
         Token _next();
@@ -76,7 +85,30 @@ namespace dpl::parser
                 node->literal = token;
                 return node;
             }
+        };
 
+        InfixParselet::InfixParselet(Precedence precedence)
+            : precedence(precedence)
+        {
+        }
+
+        template <class T>
+        struct BinaryOperatorParselet : InfixParselet {
+            const bool isRight;
+
+            BinaryOperatorParselet(Precedence precedence, bool isRight)
+                : InfixParselet(precedence), isRight(isRight) {}
+
+            ast::node_ptr parse(Parser& parser, ast::node_ptr left, Token token) {
+                ast::node_ptr right = parser.parse(
+                    static_cast<Precedence>(static_cast<int>(precedence) - (isRight ? 1 : 0)));
+
+                auto node = std::make_unique<T>();
+                node->operation = token;
+                node->left = std::move(left);
+                node->right = std::move(right);
+                return node;
+            }
         };
     }
 
@@ -86,6 +118,8 @@ namespace dpl::parser
         _prefixParselets[TokenType::NumberLiteral] = std::make_unique<
             parselets::LiteralParselet<ast::NumberLiteralNode>>(Precedence::None);
 
+        _infixParselets[TokenType::AddOperator] = std::make_unique<
+            parselets::BinaryOperatorParselet<ast::AddOperatorNode>>(Precedence::Sum, false);
     }
 
     Token Parser::_next()
