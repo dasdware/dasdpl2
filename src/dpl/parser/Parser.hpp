@@ -67,11 +67,12 @@ namespace dpl::parser
         {
         }
 
-        struct NumberParselet : PrefixParselet {
-            NumberParselet() : PrefixParselet(Precedence::None) { }
+        template <class T>
+        struct LiteralParselet : PrefixParselet {
+            LiteralParselet(Precedence precedence) : PrefixParselet(precedence) {}
 
             ast::node_ptr parse(Parser&, Token token) {
-                auto node = std::make_unique<ast::NumberLiteralNode>();
+                auto node = std::make_unique<T>();
                 node->literal = token;
                 return node;
             }
@@ -82,7 +83,8 @@ namespace dpl::parser
     Parser::Parser(dpl::lexer::Lexer& lexer)
         : _lexer(lexer)
     {
-        _prefixParselets[TokenType::NumberLiteral] = std::make_unique<parselets::NumberParselet>();
+        _prefixParselets[TokenType::NumberLiteral] = std::make_unique<
+            parselets::LiteralParselet<ast::NumberLiteralNode>>(Precedence::None);
 
     }
 
