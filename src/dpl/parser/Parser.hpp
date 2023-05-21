@@ -58,13 +58,13 @@ namespace dpl::parser
         Token _consume();
         Token _consume(TokenType type);
         bool _match(TokenType type);
-
-        ast::node_ptr _parse(Precedence precedence);
+        Precedence _getPrecedence();
 
     public:
         Parser(dpl::lexer::Lexer& lexer);
 
         ast::node_ptr parse();
+        ast::node_ptr parse(Precedence precedence);
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_PARSER_PARSER_IMPL)
@@ -175,7 +175,16 @@ namespace dpl::parser
         return true;
     }
 
-    ast::node_ptr Parser::_parse(Precedence precedence)
+    Precedence Parser::_getPrecedence() {
+        auto parser = _infixParselets.find(_peek(0).type);
+        if (parser == _infixParselets.end()) {
+            return Precedence::None;
+        }
+
+        return parser->second->precedence;
+    }
+
+    ast::node_ptr Parser::parse(Precedence precedence)
     {
         Token token = _consume();
 
@@ -186,17 +195,23 @@ namespace dpl::parser
         }
 
         auto left = prefix->second->parse(*this, token);
-        _match(TokenType::EndOfFile);
+
+        while (precedence < _getPrecedence()) {
+            token = _consume();
+
+            auto infix = _infixParselets.find(token.type);
+            left = infix->second->parse(*this, std::move(left), token);
+        }
+
         return left;
     }
 
     ast::node_ptr Parser::parse()
     {
-        auto expression = _parse(Precedence::None);
-
+        auto expression = parse(Precedence::None);
+        _match(TokenType::EndOfFile);
         return expression;
     }
-
 
 #endif
 }
