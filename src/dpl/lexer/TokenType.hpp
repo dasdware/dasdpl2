@@ -7,6 +7,9 @@
     /* Literals */                \
     _define(NumberLiteral)        \
                                   \
+    /* Operators */               \
+    _define(AddOperator)          \
+                                  \
     /* Normally ignored */        \
     _define(WhiteSpace)           \
     _define(EndOfFile)            \

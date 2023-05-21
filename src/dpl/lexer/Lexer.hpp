@@ -31,8 +31,10 @@ namespace dpl::lexer
         Token eof();
         Token invalidCharacter();
         Token whitespace();
+
         Token number(char first);
 
+        Token addOperator();
     public:
         Lexer(SourceText& sourceText);
 
@@ -218,6 +220,11 @@ namespace dpl::lexer
         return endToken(type);
     }
 
+    Token Lexer::addOperator()
+    {
+        return endToken(TokenType::AddOperator);
+    }
+
     Lexer::Lexer(SourceText& sourceText)
         : sourceText(sourceText), column(0)
     {
@@ -239,6 +246,8 @@ namespace dpl::lexer
         case '\r':
         case '\t':
             return whitespace();
+        case '+':
+            return addOperator();
         case '0':
         case '1':
         case '2':
