@@ -3,63 +3,92 @@
 
 #include <memory>
 
-#include <dpl/parser/ast/NodeDefinitions.hpp>
-
-#define DECL_BASE_NODE(name, fields)       \
-   struct name##Node : Node {              \
-        fields                             \
-   };
-#define DECL_ALIAS_NODE(name, parent)      \
-    struct name##Node : parent##Node       \
-    {                                      \
-        void accept(NodeVisitor *visitor); \
-    };
-#define DECL_NODE(name, fields)            \
-   struct name##Node : Node {              \
-        fields                             \
-        void accept(NodeVisitor *visitor); \
-   };
-#define DECL_FIELD(type, name) type name; 
-#define DECL_CHILD(type, name) std::unique_ptr<type> name;
-
-#define VISITOR_DECL_NODE(name, fields) \
-    virtual void visit##name##Node(name##Node *node) = 0;
-#define VISITOR_IGNORE(a, b)
-
 namespace dpl::parser::ast
 {
-    using dpl::lexer::Token;
+    struct NodeVisitor;
 
-    NODES(DECL_NODE, DECL_BASE_NODE, DECL_ALIAS_NODE, DECL_FIELD, DECL_CHILD)
-
-
-        struct NodeVisitor
+    struct Node
     {
-        NODES(VISITOR_DECL_NODE, VISITOR_IGNORE, VISITOR_DECL_NODE, VISITOR_IGNORE, VISITOR_IGNORE)
+        virtual void accept(NodeVisitor* visitor) = 0;
+    };
+
+    typedef std::unique_ptr<Node> node_ptr;
+
+    // COMMON NODES
+
+    struct InvalidNode : Node {
+        void accept(NodeVisitor* visitor);
     };
 
     node_ptr makeInvalidNode();
 
+    // LITERAL NODES
+
+    struct LiteralNode : public Node {
+        dpl::lexer::Token literal;
+    };
+
+    struct NumberLiteralNode : public LiteralNode {
+        void accept(NodeVisitor* visitor);
+    };
+
+    // BINARY OPERATOR NODES
+
+    struct BinaryOperatorNode : Node {
+        dpl::lexer::Token operation;
+        node_ptr left;
+        node_ptr right;
+    };
+
+    struct AddOperatorNode : BinaryOperatorNode {
+        void accept(NodeVisitor* visitor);
+    };
+
+    struct SubtractOperatorNode : BinaryOperatorNode {
+        void accept(NodeVisitor* visitor);
+    };
+
+    struct NodeVisitor
+    {
+        virtual void visitInvalidNode(InvalidNode* node) = 0;
+        virtual void visitNumberLiteralNode(NumberLiteralNode* node) = 0;
+        virtual void visitAddOperatorNode(AddOperatorNode* node) = 0;
+        virtual void visitSubtractOperatorNode(SubtractOperatorNode* node) = 0;
+    };
+
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_PARSER_AST_NODES_IMPL)
 #define __DPL_PARSER_AST_NODES_IMPL
 
-    //#include <dpl/parser/ast/NodeVisitor.hpp>
+    // COMMON NODES
 
-
-#define IMPL_IGNORE(a, b)
-#define IMPL_NODE(name, fields)                        \
-    void name##Node::accept(NodeVisitor *visitor) \
-    {                                             \
-        visitor->visit##name##Node(this);         \
+    void InvalidNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visitInvalidNode(this);
     }
-#define IMPL_ALIAS_NODE(name, super) IMPL_NODE(name, )
 
-    NODES(IMPL_NODE, IMPL_IGNORE, IMPL_ALIAS_NODE, IMPL_IGNORE, IMPL_IGNORE)
-
-        node_ptr makeInvalidNode() {
+    node_ptr makeInvalidNode()
+    {
         return std::make_unique<InvalidNode>();
     }
 
+    // LITERAL NODES
+
+    void NumberLiteralNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visitNumberLiteralNode(this);
+    }
+
+    // BINARY OPERATOR NODES
+
+    void AddOperatorNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visitAddOperatorNode(this);
+    }
+
+    void SubtractOperatorNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visitSubtractOperatorNode(this);
+    }
 
 #endif
 }
