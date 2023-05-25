@@ -9,19 +9,14 @@ namespace dpl::utils
     using namespace dpl::parser::ast;
 
     struct AstPrinter : NodeVisitor {
-        void visitInvalidNode(InvalidNode* node);
-        void visitNumberLiteralNode(NumberLiteralNode* node);
+        void visit(InvalidNode* node);
 
-        void visitAddOperatorNode(AddOperatorNode* node);
-        void visitSubtractOperatorNode(SubtractOperatorNode* node);
-        void visitMultiplyOperatorNode(MultiplyOperatorNode* node);
-        void visitDivideOperatorNode(DivideOperatorNode* node);
+        void visitLiteral(const char* nodeName, LiteralNode* node);
+        void visitBinaryOperator(const char* name, BinaryOperatorNode* node);
 
         AstPrinter(std::ostream& stream);
     private:
         TreePrinter _printer;
-
-        void _visitBinaryOperatorNode(const char* name, BinaryOperatorNode* node);
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_UTILS_ASTPRINTER_HPP_IMPL)
@@ -33,28 +28,27 @@ namespace dpl::utils
     }
 
 
-    void AstPrinter::visitInvalidNode(InvalidNode*)
+    void AstPrinter::visit(InvalidNode*)
     {
         _printer.beginLeaf();
         {
             _printer.writeLine("Invalid");
         }
         _printer.endNode();
-
     }
 
-    void AstPrinter::visitNumberLiteralNode(NumberLiteralNode* node)
+    void AstPrinter::visitLiteral(const char* nodeName, LiteralNode* node)
     {
         _printer.beginLeaf();
         {
-            _printer.writeLine("NumberLiteral");
+            _printer.writeLine(nodeName);
             _printer.writeValue("Location", node->literal.location);
             _printer.writeValue("Value", node->literal.toString());
         }
         _printer.endNode();
     }
 
-    void AstPrinter::_visitBinaryOperatorNode(const char* name, BinaryOperatorNode* node)
+    void AstPrinter::visitBinaryOperator(const char* name, BinaryOperatorNode* node)
     {
         _printer.beginNode(2);
         {
@@ -64,29 +58,7 @@ namespace dpl::utils
             node->right->accept(this);
         }
         _printer.endNode();
-
     }
-
-    void AstPrinter::visitAddOperatorNode(AddOperatorNode* node)
-    {
-        _visitBinaryOperatorNode("AddOperator", node);
-    }
-
-    void AstPrinter::visitSubtractOperatorNode(SubtractOperatorNode* node)
-    {
-        _visitBinaryOperatorNode("SubtractOperator", node);
-    }
-
-    void AstPrinter::visitMultiplyOperatorNode(MultiplyOperatorNode* node)
-    {
-        _visitBinaryOperatorNode("MultiplyOperator", node);
-    }
-
-    void AstPrinter::visitDivideOperatorNode(DivideOperatorNode* node)
-    {
-        _visitBinaryOperatorNode("DivideOperator", node);
-    }
-
 
 #endif // DPL_UTILS_ASTPRINTER_HPP_IMPL
 }

@@ -58,13 +58,16 @@ namespace dpl::parser::ast
 
     struct NodeVisitor
     {
-        virtual void visitInvalidNode(InvalidNode* node) = 0;
-        virtual void visitNumberLiteralNode(NumberLiteralNode* node) = 0;
+        virtual void visit(InvalidNode* node);
 
-        virtual void visitAddOperatorNode(AddOperatorNode* node) = 0;
-        virtual void visitSubtractOperatorNode(SubtractOperatorNode* node) = 0;
-        virtual void visitMultiplyOperatorNode(MultiplyOperatorNode* node) = 0;
-        virtual void visitDivideOperatorNode(DivideOperatorNode* node) = 0;
+        virtual void visitLiteral(const char* nodeName, LiteralNode* node);
+        virtual void visit(NumberLiteralNode* node);
+
+        virtual void visitBinaryOperator(const char* nodeName, BinaryOperatorNode* node);
+        virtual void visit(AddOperatorNode* node);
+        virtual void visit(SubtractOperatorNode* node);
+        virtual void visit(MultiplyOperatorNode* node);
+        virtual void visit(DivideOperatorNode* node);
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_PARSER_AST_NODES_IMPL)
@@ -74,7 +77,7 @@ namespace dpl::parser::ast
 
     void InvalidNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitInvalidNode(this);
+        visitor->visit(this);
     }
 
     node_ptr makeInvalidNode()
@@ -86,30 +89,73 @@ namespace dpl::parser::ast
 
     void NumberLiteralNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitNumberLiteralNode(this);
+        visitor->visit(this);
     }
 
     // BINARY OPERATOR NODES
 
     void AddOperatorNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitAddOperatorNode(this);
+        visitor->visit(this);
     }
 
     void SubtractOperatorNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitSubtractOperatorNode(this);
+        visitor->visit(this);
     }
 
     void MultiplyOperatorNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitMultiplyOperatorNode(this);
+        visitor->visit(this);
     }
 
     void DivideOperatorNode::accept(NodeVisitor* visitor)
     {
-        visitor->visitDivideOperatorNode(this);
+        visitor->visit(this);
     }
+
+    // NodeVisitor
+
+    void NodeVisitor::visit(InvalidNode*)
+    {
+        // empty default implementation
+    }
+
+    void NodeVisitor::visitLiteral(const char*, LiteralNode*)
+    {
+        // empty default implementation
+    }
+
+    void NodeVisitor::visit(NumberLiteralNode* node)
+    {
+        visitLiteral("NumberLiteral", node);
+    }
+
+    void NodeVisitor::visitBinaryOperator(const char*, BinaryOperatorNode*)
+    {
+        // empty default implementation
+    }
+
+    void NodeVisitor::visit(AddOperatorNode* node)
+    {
+        visitBinaryOperator("AddOperatorNode", node);
+    }
+
+    void NodeVisitor::visit(SubtractOperatorNode* node)
+    {
+        visitBinaryOperator("SubtractOperatorNode", node);
+    }
+
+    void NodeVisitor::visit(MultiplyOperatorNode* node)
+    {
+        visitBinaryOperator("MultiplyOperatorNode", node);
+    }
+
+    void NodeVisitor::visit(DivideOperatorNode* node)
+    {
+        visitBinaryOperator("DivideOperatorNode", node);
+    }
+
 #endif
 }
 
