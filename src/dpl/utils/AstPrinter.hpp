@@ -17,6 +17,8 @@ namespace dpl::utils
         AstPrinter(std::ostream& stream);
     private:
         TreePrinter _printer;
+
+        void _writeTokenLine(const char* label, dpl::lexer::Token token);
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_UTILS_ASTPRINTER_HPP_IMPL)
@@ -27,6 +29,14 @@ namespace dpl::utils
     {
     }
 
+    void AstPrinter::_writeTokenLine(const char* label, dpl::lexer::Token token)
+    {
+        _printer.write(label);
+        _printer.write(": '");
+        _printer.write(token.toString());
+        _printer.write("' @ ");
+        _printer.writeLine(token.location);
+    }
 
     void AstPrinter::visit(InvalidNode*)
     {
@@ -42,8 +52,7 @@ namespace dpl::utils
         _printer.beginLeaf();
         {
             _printer.writeLine(nodeName);
-            _printer.writeValue("Location", node->literal.location);
-            _printer.writeValue("Value", node->literal.toString());
+            _writeTokenLine("Value", node->literal);
         }
         _printer.endNode();
     }
@@ -53,7 +62,7 @@ namespace dpl::utils
         _printer.beginNode(2);
         {
             _printer.writeLine(name);
-            _printer.writeValue("Location", node->operation.location);
+            _writeTokenLine("Operation", node->operation);
             node->left->accept(this);
             node->right->accept(this);
         }
