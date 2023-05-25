@@ -1,5 +1,5 @@
-#ifndef __DPL_UTILS_ASTPRINTER_HPP
-#define __DPL_UTILS_ASTPRINTER_HPP
+#ifndef __DPL_UTILS_ASTTREEPRINTER_HPP
+#define __DPL_UTILS_ASTTREEPRINTER_HPP
 
 #include <dpl/parser/ast/Nodes.hpp>
 #include <dpl/utils/TreePrinter.hpp>
@@ -8,7 +8,7 @@ namespace dpl::utils
 {
     using namespace dpl::parser::ast;
 
-    struct AstPrinter : NodeVisitor {
+    struct AstTreePrinter : NodeVisitor {
         void visit(InvalidNode* node);
 
         void visit(GroupingNode* node);
@@ -16,22 +16,22 @@ namespace dpl::utils
         void visitLiteral(const char* nodeName, LiteralNode* node);
         void visitBinaryOperator(const char* name, BinaryOperatorNode* node);
 
-        AstPrinter(std::ostream& stream);
+        AstTreePrinter(std::ostream& stream);
     private:
         TreePrinter _printer;
 
         void _writeTokenLine(const char* label, dpl::lexer::Token token);
     };
 
-#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_UTILS_ASTPRINTER_HPP_IMPL)
-#define __DPL_UTILS_ASTPRINTER_HPP_IMPL
+#if defined(DPL_IMPLEMENTATION) && !defined(__DPL_UTILS_ASTTREEPRINTER_HPP_IMPL)
+#define __DPL_UTILS_ASTTREEPRINTER_HPP_IMPL
 
-    AstPrinter::AstPrinter(std::ostream& stream)
+    AstTreePrinter::AstTreePrinter(std::ostream& stream)
         : _printer(stream, 1)
     {
     }
 
-    void AstPrinter::_writeTokenLine(const char* label, dpl::lexer::Token token)
+    void AstTreePrinter::_writeTokenLine(const char* label, dpl::lexer::Token token)
     {
         _printer.write(label);
         _printer.write(": '");
@@ -40,7 +40,7 @@ namespace dpl::utils
         _printer.writeLine(token.location);
     }
 
-    void AstPrinter::visit(InvalidNode*)
+    void AstTreePrinter::visit(InvalidNode*)
     {
         _printer.beginLeaf();
         {
@@ -49,7 +49,7 @@ namespace dpl::utils
         _printer.endNode();
     }
 
-    void AstPrinter::visit(GroupingNode* node)
+    void AstTreePrinter::visit(GroupingNode* node)
     {
         _printer.beginNode(1);
         {
@@ -61,7 +61,7 @@ namespace dpl::utils
         _printer.endNode();
     }
 
-    void AstPrinter::visitLiteral(const char* nodeName, LiteralNode* node)
+    void AstTreePrinter::visitLiteral(const char* nodeName, LiteralNode* node)
     {
         _printer.beginLeaf();
         {
@@ -71,7 +71,7 @@ namespace dpl::utils
         _printer.endNode();
     }
 
-    void AstPrinter::visitBinaryOperator(const char* name, BinaryOperatorNode* node)
+    void AstTreePrinter::visitBinaryOperator(const char* name, BinaryOperatorNode* node)
     {
         _printer.beginNode(2);
         {

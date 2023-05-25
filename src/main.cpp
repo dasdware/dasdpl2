@@ -1,5 +1,5 @@
 #include <dpl/parser/Parser.hpp>
-#include <dpl/utils/AstPrinter.hpp>
+#include <dpl/utils/AstTreePrinter.hpp>
 
 int main()
 {
@@ -9,7 +9,7 @@ int main()
 
     auto expression = parser.parse();
 
-    dpl::utils::AstPrinter printer(std::cout);
+    dpl::utils::AstTreePrinter printer(std::cout);
     expression->accept(&printer);
 
     /* auto token = dpl::lexer::Token::invalid();
