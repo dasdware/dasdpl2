@@ -66,6 +66,7 @@ namespace dpl::parser
         ast::node_ptr parse(Precedence precedence);
 
         Token consume(TokenType type);
+        Token expect(TokenType type);
 
     };
 
@@ -85,7 +86,7 @@ namespace dpl::parser
                 auto node = std::make_unique<ast::GroupingNode>();
                 node->openParenthesis = token;
                 node->expression = parser.parse(precedence);
-                node->closeParenthesis = parser.consume(TokenType::CloseParenthesis);
+                node->closeParenthesis = parser.expect(TokenType::CloseParenthesis);
                 return node;
             }
         };
@@ -196,6 +197,21 @@ namespace dpl::parser
         _consume();
         return true;
     }
+
+    Token Parser::expect(TokenType type)
+    {
+        auto token = _peek(0);
+        if (token.type != type) {
+            // TODO: Error message
+            std::cerr << token.location << ": ERROR: Unexpected " << token.type << ", expected " << type << std::endl;
+            token.report(std::cerr);
+            return Token::invalid();
+        }
+
+        _consume();
+        return token;
+    }
+
 
     Precedence Parser::_getPrecedence() {
         auto parser = _infixParselets.find(_peek(0).type);
