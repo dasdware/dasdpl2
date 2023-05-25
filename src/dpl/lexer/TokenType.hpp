@@ -11,6 +11,7 @@
     _define(AddOperator)          \
     _define(SubtractOperator)     \
     _define(MultiplyOperator)     \
+    _define(DivideOperator)       \
                                   \
     /* Normally ignored */        \
     _define(WhiteSpace)           \

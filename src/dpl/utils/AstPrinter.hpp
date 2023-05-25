@@ -11,9 +11,11 @@ namespace dpl::utils
     struct AstPrinter : NodeVisitor {
         void visitInvalidNode(InvalidNode* node);
         void visitNumberLiteralNode(NumberLiteralNode* node);
+
         void visitAddOperatorNode(AddOperatorNode* node);
         void visitSubtractOperatorNode(SubtractOperatorNode* node);
         void visitMultiplyOperatorNode(MultiplyOperatorNode* node);
+        void visitDivideOperatorNode(DivideOperatorNode* node);
 
         AstPrinter(std::ostream& stream);
     private:
@@ -79,6 +81,12 @@ namespace dpl::utils
     {
         _visitBinaryOperatorNode("MultiplyOperator", node);
     }
+
+    void AstPrinter::visitDivideOperatorNode(DivideOperatorNode* node)
+    {
+        _visitBinaryOperatorNode("DivideOperator", node);
+    }
+
 
 #endif // DPL_UTILS_ASTPRINTER_HPP_IMPL
 }
