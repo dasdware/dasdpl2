@@ -56,7 +56,6 @@ namespace dpl::parser
         Token _next();
         Token _peek(std::size_t distance);
         Token _consume();
-        Token _consume(TokenType type);
         bool _match(TokenType type);
         Precedence _getPrecedence();
 
@@ -65,6 +64,9 @@ namespace dpl::parser
 
         ast::node_ptr parse();
         ast::node_ptr parse(Precedence precedence);
+
+        Token consume(TokenType type);
+
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_PARSER_PARSER_IMPL)
@@ -75,6 +77,18 @@ namespace dpl::parser
             : precedence(precedence)
         {
         }
+
+        struct GroupingParselet : PrefixParselet {
+            GroupingParselet() : PrefixParselet(Precedence::None) {}
+
+            ast::node_ptr parse(Parser& parser, Token token) {
+                auto node = std::make_unique<ast::GroupingNode>();
+                node->openParenthesis = token;
+                node->expression = parser.parse(precedence);
+                node->closeParenthesis = parser.consume(TokenType::CloseParenthesis);
+                return node;
+            }
+        };
 
         template <class T>
         struct LiteralParselet : PrefixParselet {
@@ -117,6 +131,8 @@ namespace dpl::parser
     {
         _prefixParselets[TokenType::NumberLiteral] = std::make_unique<
             parselets::LiteralParselet<ast::NumberLiteralNode>>(Precedence::None);
+        _prefixParselets[TokenType::OpenParenthesis] = std::make_unique<
+            parselets::GroupingParselet>();
 
         _infixParselets[TokenType::AddOperator] = std::make_unique<
             parselets::BinaryOperatorParselet<ast::AddOperatorNode>>(Precedence::Sum, false);
@@ -158,7 +174,7 @@ namespace dpl::parser
         return token;
     }
 
-    Token Parser::_consume(TokenType type) {
+    Token Parser::consume(TokenType type) {
         auto token = _peek(0);
         if (token.type != type) {
             // TODO: Error message

@@ -239,6 +239,10 @@ namespace dpl::lexer
         case '\r':
         case '\t':
             return whitespace();
+        case '(':
+            return endToken(TokenType::OpenParenthesis);
+        case ')':
+            return endToken(TokenType::CloseParenthesis);
         case '+':
             return endToken(TokenType::AddOperator);
         case '-':

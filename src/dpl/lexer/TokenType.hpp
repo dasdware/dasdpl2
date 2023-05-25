@@ -13,6 +13,10 @@
     _define(MultiplyOperator)     \
     _define(DivideOperator)       \
                                   \
+    /* Punctuation */             \
+    _define(OpenParenthesis)      \
+    _define(CloseParenthesis)     \
+                                  \
     /* Normally ignored */        \
     _define(WhiteSpace)           \
     _define(EndOfFile)            \

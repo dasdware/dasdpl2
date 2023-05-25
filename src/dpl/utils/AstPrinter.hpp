@@ -11,6 +11,8 @@ namespace dpl::utils
     struct AstPrinter : NodeVisitor {
         void visit(InvalidNode* node);
 
+        void visit(GroupingNode* node);
+
         void visitLiteral(const char* nodeName, LiteralNode* node);
         void visitBinaryOperator(const char* name, BinaryOperatorNode* node);
 
@@ -43,6 +45,18 @@ namespace dpl::utils
         _printer.beginLeaf();
         {
             _printer.writeLine("Invalid");
+        }
+        _printer.endNode();
+    }
+
+    void AstPrinter::visit(GroupingNode* node)
+    {
+        _printer.beginNode(1);
+        {
+            _printer.writeLine("Grouping");
+            _writeTokenLine("OpenParenthesis", node->openParenthesis);
+            _writeTokenLine("CloseParenthesis", node->closeParenthesis);
+            node->expression->accept(this);
         }
         _printer.endNode();
     }

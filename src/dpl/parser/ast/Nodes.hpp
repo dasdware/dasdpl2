@@ -22,6 +22,14 @@ namespace dpl::parser::ast
 
     node_ptr makeInvalidNode();
 
+    struct GroupingNode : Node {
+        dpl::lexer::Token openParenthesis;
+        dpl::lexer::Token closeParenthesis;
+        node_ptr expression;
+
+        void accept(NodeVisitor* visitor);
+    };
+
     // LITERAL NODES
 
     struct LiteralNode : public Node {
@@ -60,6 +68,8 @@ namespace dpl::parser::ast
     {
         virtual void visit(InvalidNode* node);
 
+        virtual void visit(GroupingNode* node);
+
         virtual void visitLiteral(const char* nodeName, LiteralNode* node);
         virtual void visit(NumberLiteralNode* node);
 
@@ -84,6 +94,12 @@ namespace dpl::parser::ast
     {
         return std::make_unique<InvalidNode>();
     }
+
+    void GroupingNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visit(this);
+    }
+
 
     // LITERAL NODES
 
@@ -117,6 +133,11 @@ namespace dpl::parser::ast
     // NodeVisitor
 
     void NodeVisitor::visit(InvalidNode*)
+    {
+        // empty default implementation
+    }
+
+    void NodeVisitor::visit(GroupingNode*)
     {
         // empty default implementation
     }
