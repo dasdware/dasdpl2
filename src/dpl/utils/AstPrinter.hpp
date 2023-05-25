@@ -13,6 +13,7 @@ namespace dpl::utils
         void visitNumberLiteralNode(NumberLiteralNode* node);
         void visitAddOperatorNode(AddOperatorNode* node);
         void visitSubtractOperatorNode(SubtractOperatorNode* node);
+        void visitMultiplyOperatorNode(MultiplyOperatorNode* node);
 
         AstPrinter(std::ostream& stream);
     private:
@@ -74,6 +75,10 @@ namespace dpl::utils
         _visitBinaryOperatorNode("SubtractOperator", node);
     }
 
+    void AstPrinter::visitMultiplyOperatorNode(MultiplyOperatorNode* node)
+    {
+        _visitBinaryOperatorNode("MultiplyOperator", node);
+    }
 
 #endif // DPL_UTILS_ASTPRINTER_HPP_IMPL
 }

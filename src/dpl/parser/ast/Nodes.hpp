@@ -48,12 +48,18 @@ namespace dpl::parser::ast
         void accept(NodeVisitor* visitor);
     };
 
+    struct MultiplyOperatorNode : BinaryOperatorNode {
+        void accept(NodeVisitor* visitor);
+    };
+
     struct NodeVisitor
     {
         virtual void visitInvalidNode(InvalidNode* node) = 0;
         virtual void visitNumberLiteralNode(NumberLiteralNode* node) = 0;
+
         virtual void visitAddOperatorNode(AddOperatorNode* node) = 0;
         virtual void visitSubtractOperatorNode(SubtractOperatorNode* node) = 0;
+        virtual void visitMultiplyOperatorNode(MultiplyOperatorNode* node) = 0;
     };
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_PARSER_AST_NODES_IMPL)
@@ -88,6 +94,11 @@ namespace dpl::parser::ast
     void SubtractOperatorNode::accept(NodeVisitor* visitor)
     {
         visitor->visitSubtractOperatorNode(this);
+    }
+
+    void MultiplyOperatorNode::accept(NodeVisitor* visitor)
+    {
+        visitor->visitMultiplyOperatorNode(this);
     }
 
 #endif

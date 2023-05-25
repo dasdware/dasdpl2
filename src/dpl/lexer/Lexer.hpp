@@ -243,6 +243,8 @@ namespace dpl::lexer
             return endToken(TokenType::AddOperator);
         case '-':
             return endToken(TokenType::SubtractOperator);
+        case '*':
+            return endToken(TokenType::MultiplyOperator);
         case '0':
         case '1':
         case '2':
