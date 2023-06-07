@@ -16,4 +16,4 @@ jobs:
       - name: build everything
         run: |
           gcc -o .\build.exe .\build\build.c
-          ./build.exe
+          ./build.exe run
