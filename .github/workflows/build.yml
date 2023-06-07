@@ -2,7 +2,7 @@ name: Build
 on: [push, pull_request]
 
 jobs:
-  build-linux-gcc:
+  build-windows:
     runs-on: windows-latest
     steps:
       - name: Checkout source
