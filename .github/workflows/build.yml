@@ -1,0 +1,19 @@
+name: Build
+on: [push, pull_request]
+
+jobs:
+  build-linux-gcc:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+      - name: Set up MinGW
+        uses: egor-tensin/setup-mingw@v2
+        with:
+          platform: x64
+      - name: build everything
+        run: |
+          gcc -o .\build.exe .\build\build.c
+          ./build.exe
