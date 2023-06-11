@@ -83,8 +83,6 @@ CESTER_BEFORE_ALL(instance,
     PARSER_EXPRESSION_TEST(Parser_Grouping_AddDiv, "(123+456)/789", "(((123 + 456)) / 789)")
     PARSER_EXPRESSION_TEST(Parser_Grouping_DivAdd, "123/(456+789)", "(123 / ((456 + 789)))")
 
-
-
     CESTER_TEST(Value_Number_Simple, instance,
         const auto value = dpl::values::Value::number("123");
 cester_assert_str_eq("Number", value.type().name().c_str());
