@@ -5,8 +5,7 @@
 
 #include <exotic/cester.h>
 
-#include <dpl/lexer/Lexer.hpp>
-#include <dpl/values/Value.hpp>
+#include <dpl/_index.hpp>
 
 CESTER_BEFORE_ALL(instance,
     CESTER_VERBOSE_LEVEL(2);)
@@ -57,6 +56,34 @@ CESTER_BEFORE_ALL(instance,
     LEXER_LITERAL_TEST(Lexer_EndOfFile, dpl::lexer::TokenType::EndOfFile, "")
 
     LEXER_LITERAL_TEST(Lexer_InvalidCharacter, dpl::lexer::TokenType::InvalidCharacter, "@")
+
+#define PARSER_EXPRESSION_TEST(name, input_expression, expected_result) \
+    CESTER_TEST(name, instance, \
+        dpl::lexer::SourceText source(#name, input_expression); \
+        dpl::lexer::Lexer lexer(source); \
+        dpl::parser::Parser parser(lexer); \
+        auto expression = parser.parse(); \
+        std::ostringstream stream; \
+        dpl::utils::AstExpressionPrinter expressionPrinter(stream); \
+        expression->accept(&expressionPrinter); \
+        cester_assert_str_equal(expected_result, stream.str().c_str());)
+
+    PARSER_EXPRESSION_TEST(Parser_Expression_Sum, "123+456", "(123 + 456)")
+    PARSER_EXPRESSION_TEST(Parser_Expression_Subtraction, "123-456", "(123 - 456)")
+    PARSER_EXPRESSION_TEST(Parser_Expression_Multiplication, "123*456", "(123 * 456)")
+    PARSER_EXPRESSION_TEST(Parser_Expression_Division, "123/456", "(123 / 456)")
+
+    PARSER_EXPRESSION_TEST(Parser_Precedence_AddMult, "123+456*789", "(123 + (456 * 789))")
+    PARSER_EXPRESSION_TEST(Parser_Precedence_MultAdd, "123*456+789", "((123 * 456) + 789)")
+    PARSER_EXPRESSION_TEST(Parser_Precedence_AddDiv, "123+456/789", "(123 + (456 / 789))")
+    PARSER_EXPRESSION_TEST(Parser_Precedence_DivAdd, "123/456+789", "((123 / 456) + 789)")
+
+    PARSER_EXPRESSION_TEST(Parser_Grouping_AddMult, "(123+456)*789", "(((123 + 456)) * 789)")
+    PARSER_EXPRESSION_TEST(Parser_Grouping_MultAdd, "123*(456+789)", "(123 * ((456 + 789)))")
+    PARSER_EXPRESSION_TEST(Parser_Grouping_AddDiv, "(123+456)/789", "(((123 + 456)) / 789)")
+    PARSER_EXPRESSION_TEST(Parser_Grouping_DivAdd, "123/(456+789)", "(123 / ((456 + 789)))")
+
+
 
     CESTER_TEST(Value_Number_Simple, instance,
         const auto value = dpl::values::Value::number("123");
