@@ -1,7 +1,7 @@
 #define NOBUILD_IMPLEMENTATION
 #include "../vendor/nobuild/nobuild.h"
 
-#define CPPFLAGS "-Wall", "-Wextra", "-std=c++17", "-pedantic"
+#define CPPFLAGS "-Wall", "-Wextra", "-std=c++20", "-pedantic"
 #define INC_DPL "-Isrc"
 #define INC_CESTER "-Ivendor/libcester/include"
 
@@ -22,7 +22,7 @@ void run_compiler()
 
 void build_tests()
 {
-    CMD("g++.exe", INC_CESTER, INC_DPL, "-I.", "-Wno-write-strings", "-std=c++17",
+    CMD("g++.exe", INC_CESTER, INC_DPL, "-I.", "-Wno-write-strings", "-std=c++20",
         "-o", "tests.exe", SRC_DPL, SRC_TEST);
 }
 

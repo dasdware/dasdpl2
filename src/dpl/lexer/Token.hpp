@@ -2,6 +2,7 @@
 #define __DPL_LEXER_TOKEN_H
 
 #include <iostream>
+#include <string_view>
 #include <vector>
 
 #include <dpl/lexer/Location.hpp>
@@ -14,16 +15,13 @@ namespace dpl::lexer
         Location location;
         TokenType type;
 
-        std::string::const_iterator textBegin;
-        std::string::const_iterator textEnd;
+        std::string_view text;
 
         Token();
-        Token(const Location location,
-            TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd);
+        Token(const Location location, TokenType type, const std::string_view& text);
         Token(const Token& token) = default;
 
         void report(std::ostream& os);
-        std::string toString();
 
         bool isInvalid();
 
@@ -37,15 +35,12 @@ namespace dpl::lexer
 
     Token::Token()
         : location(Token::invalid().location),
-        textBegin(Token::invalid().textBegin),
-        textEnd(Token::invalid().textEnd)
+        text(Token::invalid().text)
     {
     }
 
-    Token::Token(const Location location,
-        TokenType type, std::string::const_iterator textBegin, std::string::const_iterator textEnd)
-        : location(location),
-        type(type), textBegin(textBegin), textEnd(textEnd)
+    Token::Token(const Location location, TokenType type, const std::string_view& text)
+        : location(location), type(type), text(text)
     {
     }
 
@@ -59,7 +54,7 @@ namespace dpl::lexer
         }
 
         os << "^";
-        for (int i = 0; i < textEnd - textBegin - 1; ++i)
+        for (std::size_t i = 0; i < text.length(); ++i)
         {
             os << "~";
         }
@@ -67,17 +62,12 @@ namespace dpl::lexer
         os << std::endl;
     }
 
-    std::string Token::toString()
-    {
-        return std::string(textBegin, textEnd);
-    }
-
     std::ostream& operator<<(std::ostream& os, const Token& token)
     {
         os << token.location << ": " << token.type;
-        if (token.textEnd > token.textBegin)
+        if (!token.text.empty())
         {
-            os << ": '" << std::string(token.textBegin, token.textEnd) << "'";
+            os << ": '" << token.text << "'";
         }
         return os;
     }
@@ -90,7 +80,8 @@ namespace dpl::lexer
     {
         static SourceText text("", "");
         static Location location(&text, text.newLine(text.sourceText().begin()), 0);
-        static Token token(location, TokenType::InvalidToken, text.sourceText().begin(), text.sourceText().end());
+        static Token token(location, TokenType::InvalidToken,
+            std::string_view(text.sourceText()));
         return token;
     }
 
