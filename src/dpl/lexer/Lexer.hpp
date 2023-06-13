@@ -101,7 +101,8 @@ namespace dpl::lexer
 
     Token Lexer::endToken(TokenType type)
     {
-        return Token(startLocation(), type, startPosition, position);
+        return Token(startLocation(), type,
+            std::string_view(startPosition, position));
     }
 
     char Lexer::peek()

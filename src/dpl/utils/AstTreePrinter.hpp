@@ -35,7 +35,7 @@ namespace dpl::utils
     {
         _printer.write(label);
         _printer.write(": '");
-        _printer.write(token.toString());
+        _printer.write(token.text);
         _printer.write("' @ ");
         _printer.writeLine(token.location);
     }

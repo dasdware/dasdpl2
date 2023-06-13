@@ -47,7 +47,7 @@ namespace dpl::utils
 
     void AstExpressionPrinter::visitLiteral(const char*, LiteralNode* node)
     {
-        _stream << node->literal.toString();
+        _stream << node->literal.text;
     }
 
     void AstExpressionPrinter::visitBinaryOperator(const char* name, BinaryOperatorNode* node)

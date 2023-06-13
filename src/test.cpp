@@ -28,7 +28,7 @@ CESTER_BEFORE_ALL(instance,
     {                                                                     \
         auto __token = lexer.nextToken();                                 \
         assert_token_type(token_type, __token.type);                      \
-        cester_assert_str_equal(token_value, __token.toString().c_str()); \
+        cester_assert_str_equal(token_value, std::string(__token.text).c_str()); \
     } while (false)
 
 #define LEXER_LITERAL_TEST(name, token_type, token_value)          \
