@@ -1,5 +1,5 @@
 #define NOBUILD_IMPLEMENTATION
-#include "../vendor/nobuild/nobuild.h"
+#include "vendor/nobuild/nobuild.h"
 
 #define CPPFLAGS "-Wall", "-Wextra", "-std=c++20", "-pedantic"
 #define INC_DPL "-Isrc"

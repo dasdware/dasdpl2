@@ -1,1 +1,0 @@
-gcc -o .\build.exe .\build\build.c
