@@ -15,6 +15,6 @@ jobs:
           platform: x64
       - name: build everything
         run: |
-          gcc -o .\build.exe .\build\build.c
-          ./build.exe run
-          ./build.exe test
+          gcc -o .\nobuild.exe .\nobuild.c
+          ./nobuild.exe run
+          ./nobuild.exe test
