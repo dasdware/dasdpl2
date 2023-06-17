@@ -55,7 +55,11 @@
     "xtree": "cpp"
   },
   "C_Cpp.vcFormat.indent.preprocessor": "leftmostColumn",
-  "C_Cpp.formatting": "vcFormat",
+  "C_Cpp.formatting": "disabled",
   "C_Cpp.dimInactiveRegions": false,
-  "C_Cpp.default.cppStandard": "c++20"
+  "C_Cpp.default.cppStandard": "c++20",
+  "editor.defaultFormatter": "chiehyu.vscode-astyle",
+  "[cpp]": {
+    "editor.defaultFormatter": "chiehyu.vscode-astyle"
+  }
 }
