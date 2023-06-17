@@ -8,50 +8,50 @@
 
 namespace dpl::lexer
 {
-    typedef std::vector<Line>::const_iterator SourceTextLine;
+typedef std::vector<Line>::const_iterator SourceTextLine;
 
-    class SourceText
-    {
-        const std::string _fileName;
-        const std::string _sourceText;
-        std::vector<Line> _lines;
+class SourceText
+{
+    const std::string _fileName;
+    const std::string _sourceText;
+    std::vector<Line> _lines;
 
-        size_t _lineNumber;
+    size_t _lineNumber;
 
-    public:
-        SourceText(const std::string fileName, const std::string sourceText);
+public:
+    SourceText(const std::string fileName, const std::string sourceText);
 
-        SourceTextLine newLine(std::string::const_iterator begin);
+    SourceTextLine newLine(std::string::const_iterator begin);
 
-        const std::string& fileName();
-        const std::string& sourceText();
-    };
+    const std::string& fileName();
+    const std::string& sourceText();
+};
 
 #if defined(DPL_IMPLEMENTATION) && !defined(__DPL_LEXER_SOURCETEXT_IMPL)
 #define __DPL_LEXER_SOURCETEXT_IMPL
 
-    SourceText::SourceText(const std::string fileName, const std::string sourceText)
-        : _fileName(fileName), _sourceText(sourceText), _lineNumber(0)
-    {
-    }
+SourceText::SourceText(const std::string fileName, const std::string sourceText)
+    : _fileName(fileName), _sourceText(sourceText), _lineNumber(0)
+{
+}
 
-    SourceTextLine SourceText::newLine(std::string::const_iterator begin)
-    {
-        _lines.emplace_back(_lineNumber, _sourceText, begin);
-        _lineNumber++;
+SourceTextLine SourceText::newLine(std::string::const_iterator begin)
+{
+    _lines.emplace_back(_lineNumber, _sourceText, begin);
+    _lineNumber++;
 
-        return (_lines.end() - 1);
-    }
+    return (_lines.end() - 1);
+}
 
-    const std::string& SourceText::fileName()
-    {
-        return _fileName;
-    }
+const std::string& SourceText::fileName()
+{
+    return _fileName;
+}
 
-    const std::string& SourceText::sourceText()
-    {
-        return _sourceText;
-    }
+const std::string& SourceText::sourceText()
+{
+    return _sourceText;
+}
 
 #endif
 
