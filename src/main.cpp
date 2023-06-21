@@ -1,14 +1,10 @@
-#include <dpl/parser/Parser.hpp>
-#include <dpl/utils/AstTreePrinter.hpp>
-#include <dpl/utils/AstExpressionPrinter.hpp>
+#include <dpl/_index.hpp>
 
 int main()
 {
-    dpl::lexer::SourceText source("test.dpl", "(123 + 456) / 789");
-    dpl::lexer::Lexer lexer(source);
-    dpl::parser::Parser parser(lexer);
+    dpl::Compiler compiler("test.dpl", "(123 + 456) / 789");
 
-    auto expression = parser.parse();
+    auto expression = compiler.compile();
 
     dpl::utils::AstTreePrinter treePrinter(std::cout);
     expression->accept(&treePrinter);

@@ -3,3 +3,5 @@
 #include <dpl/types/_index.hpp>
 #include <dpl/utils/_index.hpp>
 #include <dpl/values/_index.hpp>
+
+#include <dpl/Compiler.hpp>
