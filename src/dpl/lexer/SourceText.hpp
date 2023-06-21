@@ -23,6 +23,8 @@ public:
 
     SourceTextLine newLine(std::string::const_iterator begin);
 
+    void resetLines();
+
     const std::string& fileName();
     const std::string& sourceText();
 };
@@ -42,6 +44,13 @@ SourceTextLine SourceText::newLine(std::string::const_iterator begin)
 
     return (_lines.end() - 1);
 }
+
+void SourceText::resetLines()
+{
+    _lineNumber = 0;
+    _lines.clear();
+}
+
 
 const std::string& SourceText::fileName()
 {

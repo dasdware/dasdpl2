@@ -27,6 +27,7 @@ Compiler::Compiler(const std::string& fileName, const std::string& sourceText)
 
 dpl::parser::ast::node_ptr Compiler::compile()
 {
+    sourceText_.resetLines();
     dpl::lexer::Lexer lexer(sourceText_);
     dpl::parser::Parser parser(lexer);
     return parser.parse();
